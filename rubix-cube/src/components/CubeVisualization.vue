@@ -28,7 +28,10 @@ defineEmits<{
 const mq = useMq();
 const randomRotationsRunning = ref(false);
 const algo = ref<SolvingAlgorithm>("advanced");
-const intervalId = ref<number | undefined>(undefined);
+
+const randomIntervalId = ref<number | undefined>(undefined);
+const rotationIntervalId = ref<number | undefined>(undefined);
+
 const stepIdx = ref(0);
 
 const rubixCube = ref<RubixCube>(props.rubixCube);
@@ -42,7 +45,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-   clearInterval(intervalId.value);
+   clearInterval(randomIntervalId.value);
 });
 
 watch(
@@ -94,11 +97,11 @@ function startRandomRotations() {
    if (randomRotationsRunning.value) return;
    randomRotationsRunning.value = true;
 
-   intervalId.value = setInterval(doRandomRotation, 4000);
+   randomIntervalId.value = setInterval(doRandomRotation, 4000);
 }
 function clearRandomRotations() {
    randomRotationsRunning.value = false;
-   clearInterval(intervalId.value);
+   clearInterval(randomIntervalId.value);
 }
 
 function doRandomRotation() {
@@ -137,8 +140,21 @@ function previous() {
    visualManager.previous();
 }
 
+function startAutoRotation(direction: "previous" | "next") {
+   rotationIntervalId.value = setInterval(() => {
+      if (direction === "previous") previous();
+      else next();
+   }, 100);
+}
+function stopAutoRotation() {
+   clearInterval(rotationIntervalId.value);
+}
+
 window.addEventListener("resize", (e) => {
    visualManager.handleResize();
+});
+window.addEventListener("touchend", () => {
+   stopAutoRotation();
 });
 </script>
 
@@ -146,10 +162,22 @@ window.addEventListener("resize", (e) => {
    <div class="solving-wrapper">
       <Transition name="fade-later">
          <div v-if="showControls && mq.mdMinus">
-            <div class="mobile-step-control backwards" :class="mq.current" v-on:click="previous">
+            <div
+               class="mobile-step-control backwards"
+               :class="mq.current"
+               v-on:click="previous"
+               v-on:touchstart="() => startAutoRotation('previous')"
+            >
                «
             </div>
-            <div class="mobile-step-control forwards" :class="mq.current" v-on:click="next">»</div>
+            <div
+               class="mobile-step-control forwards"
+               :class="mq.current"
+               v-on:click="next"
+               v-on:touchstart="() => startAutoRotation('next')"
+            >
+               »
+            </div>
          </div>
       </Transition>
       <Transition name="fade">
@@ -168,9 +196,9 @@ window.addEventListener("resize", (e) => {
             </div>
             <div class="row">
                <div class="step-controls">
-                  <button v-on:click="previous" class="control">«</button>
-                  <button v-on:click="next" class="control">»</button>
-                  <button v-on:click="reset">↺</button>
+                  <button v-on:click="previous" class="control"><div>«</div></button>
+                  <button v-on:click="next" class="control"><div>»</div></button>
+                  <button v-on:click="reset"><div>↺</div></button>
                </div>
             </div>
          </div>
@@ -240,6 +268,7 @@ button {
       font-size: 4em;
       line-height: 2em;
       transform: translateY(-50%);
+      user-select: none;
 
       &.forwards {
          right: -27vw;
@@ -329,13 +358,26 @@ button {
          margin: auto;
 
          button {
+            padding: 0;
             background-color: $dark-bg;
-            padding: 0.3em 0.5em;
+
+            justify-items: center;
+            align-items: center;
+
+            width: 1.7em;
+            height: 1.7em;
+
             border-radius: 0.3em;
             border: none;
             color: white;
+
             font-size: larger;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 0;
+
             margin-inline: 0.25em;
+
             cursor: pointer;
             transition: all 0.3s ease-out;
 

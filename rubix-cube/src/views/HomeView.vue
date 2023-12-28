@@ -104,6 +104,7 @@ $dark-bg: #1c4557;
    margin: auto;
    padding-top: 10vh;
    font-family: "Rubik", sans-serif;
+   padding-bottom: 5vh;
 
    &.md,
    &.lg,

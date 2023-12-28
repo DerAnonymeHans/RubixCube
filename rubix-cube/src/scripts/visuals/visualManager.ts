@@ -75,6 +75,7 @@ export class VisualManager {
       if (this.options.enableCameraMovement) {
          this.controls = new OrbitControls(this.camera, this.canvasEl);
          this.controls.enableZoom = false;
+         this.controls.enablePan = false;
          this.setupCameraMovement();
       }
       if (this.options.enableRotationShortcuts) {

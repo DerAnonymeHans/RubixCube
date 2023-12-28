@@ -55,6 +55,7 @@ const constraints = ref<MediaStreamConstraints>({
       height: {
          ideal: 1080,
       },
+      facingMode: "environment",
    },
 });
 const devices = ref<MediaDeviceInfo[]>([]);
@@ -94,8 +95,9 @@ async function getDevices() {
    );
 }
 function onDeviceChange() {
+   selectedDevice.value = deviceSelectorEl.value.value;
    (constraints.value as any).deviceId = {
-      exact: deviceSelectorEl.value,
+      exact: deviceSelectorEl.value.value,
    };
    startStream();
 }
@@ -200,7 +202,7 @@ const previousRotations = computed<RotationCommand[]>(
                :value="selectedDevice"
                v-on:change="onDeviceChange"
             >
-               <option v-for="device in devices" :value="device.deviceId">
+               <option v-for="device in devices" :value="device.deviceId" :key="device.deviceId">
                   {{ device.label }}
                </option>
             </select>
