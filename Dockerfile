@@ -31,7 +31,8 @@ COPY --from=vue-build-env /Frontend/dist ./Frontend
 # install runtime dependencies
 RUN apt-get update && apt-get install -y apt-utils
 
-EXPOSE 80
+# EXPOSE 80
+# ENTRYPOINT ["dotnet", "RubixCubeBackend.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet RubixCubeBackend.dll
 
-ENTRYPOINT ["dotnet", "RubixCubeBackend.dll"]
 
