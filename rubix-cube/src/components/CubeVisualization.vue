@@ -69,32 +69,7 @@ watch(
       }
       if (updated === "random") {
          startRandomRotations();
-         // rubixCube.value.shuffle(20);
-         rubixCube.value.rotateMultipleTimes(
-            [
-               new RotationCommand(Plane.xPlane, 2, RotationDirection.right),
-               new RotationCommand(Plane.yPlane, 1, RotationDirection.right),
-               new RotationCommand(Plane.xPlane, 2, RotationDirection.right),
-               new RotationCommand(Plane.zPlane, 2, RotationDirection.right),
-               new RotationCommand(Plane.xPlane, 2, RotationDirection.right),
-               new RotationCommand(Plane.xPlane, 0, RotationDirection.right),
-               new RotationCommand(Plane.xPlane, 1, RotationDirection.right),
-               new RotationCommand(Plane.yPlane, 0, RotationDirection.right),
-               new RotationCommand(Plane.xPlane, 1, RotationDirection.left),
-               new RotationCommand(Plane.xPlane, 1, RotationDirection.right),
-               new RotationCommand(Plane.yPlane, 1, RotationDirection.left),
-               new RotationCommand(Plane.yPlane, 2, RotationDirection.left),
-               new RotationCommand(Plane.zPlane, 1, RotationDirection.left),
-               new RotationCommand(Plane.yPlane, 1, RotationDirection.left),
-               new RotationCommand(Plane.yPlane, 0, RotationDirection.right),
-               new RotationCommand(Plane.xPlane, 1, RotationDirection.left),
-               new RotationCommand(Plane.xPlane, 2, RotationDirection.left),
-               new RotationCommand(Plane.xPlane, 1, RotationDirection.left),
-               new RotationCommand(Plane.zPlane, 2, RotationDirection.left),
-               new RotationCommand(Plane.zPlane, 1, RotationDirection.right),
-            ],
-            true
-         );
+         rubixCube.value.shuffle(20);
          rubixCube.value.printShuffles();
       }
    },

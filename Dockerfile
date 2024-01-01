@@ -4,11 +4,13 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS dotnet-build-env
 WORKDIR /Backend
 
 # Copy everything
-COPY /RubixCubeBackend/RubixCubeBackend ./
+COPY /Backend ./
+
+WORKDIR /Backend/Api
 # Restore as distinct layers
 RUN dotnet restore
 # Build and publish a release
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o ../out
 
 
 ### Build frontend
