@@ -1,7 +1,9 @@
+/** @format */
+
 import { LocalRelation, TilePosition } from "../solver/types";
 import { TileColor } from "./colors";
 import { RotationDirection } from "./commands";
-import { FacePosition } from "./cube";
+import { FacePosition } from "./types";
 
 type Neigbours = {
    left: FaceRelation;
@@ -54,11 +56,15 @@ export class CubeFace {
    }
 
    public get horizontalNeighbours() {
-      return this.neighbourList.filter((n) => n.rotation === LocalRelation.left || n.rotation === LocalRelation.right);
+      return this.neighbourList.filter(
+         (n) => n.rotation === LocalRelation.left || n.rotation === LocalRelation.right
+      );
    }
 
    public get verticalNeighbours() {
-      return this.neighbourList.filter((n) => n.rotation === LocalRelation.up || n.rotation === LocalRelation.down);
+      return this.neighbourList.filter(
+         (n) => n.rotation === LocalRelation.up || n.rotation === LocalRelation.down
+      );
    }
 
    public get oppositeFace() {
@@ -89,7 +95,8 @@ export class CubeFace {
       return array;
    }
    getCell(rowIdx: number, colIdx: number) {
-      if (rowIdx > CubeFace.SIZE || colIdx > CubeFace.SIZE) throw new Error("ColIdx or row idx too large");
+      if (rowIdx > CubeFace.SIZE || colIdx > CubeFace.SIZE)
+         throw new Error("ColIdx or row idx too large");
 
       return this.matrix[rowIdx][colIdx];
    }
@@ -107,7 +114,8 @@ export class CubeFace {
       }
    }
    setCell(rowIdx: number, colIdx: number, value: TileColor) {
-      if (rowIdx > CubeFace.SIZE || colIdx > CubeFace.SIZE) throw new Error("ColIdx or row idx too large");
+      if (rowIdx > CubeFace.SIZE || colIdx > CubeFace.SIZE)
+         throw new Error("ColIdx or row idx too large");
 
       this.matrix[rowIdx][colIdx] = value;
    }
@@ -199,11 +207,13 @@ export class FaceRelation {
    }
 
    setTouchingArray(values: TileColor[]) {
-      if (this.relationType === FaceRelationType.firstRowTouches) return this.face.setRow(0, values);
+      if (this.relationType === FaceRelationType.firstRowTouches)
+         return this.face.setRow(0, values);
 
       if (this.relationType === FaceRelationType.lastRowTouches) return this.face.setRow(2, values);
 
-      if (this.relationType === FaceRelationType.firstColTouches) return this.face.setCol(0, values);
+      if (this.relationType === FaceRelationType.firstColTouches)
+         return this.face.setCol(0, values);
 
       return this.face.setCol(2, values);
    }

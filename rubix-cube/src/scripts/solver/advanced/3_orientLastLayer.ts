@@ -2,11 +2,12 @@
 
 import { LOD } from "three";
 import { Plane, PlaneIdentifier, RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { identifierToFacePosition, invertRotation } from "../../cube/helper";
 import { mapLocalToGlobalRotation } from "../helper";
 import { LocalRelation } from "../types";
 import { TileColor } from "../../cube/colors";
+import { FacePosition } from "@/scripts/cube/types";
 
 export function orientLastLayer(cube: RubixCube) {
    applyAlgorithm(cube);

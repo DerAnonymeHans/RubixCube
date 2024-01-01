@@ -3,7 +3,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { FacePosition, RubixCube } from "../cube/cube";
+import { RubixCube } from "../cube/cube";
 import { VisualRubixCube } from "./visualCube";
 import { CameraOptions, RubixCubeCamera } from "./camera";
 import { MAX_SPEED, SCALE, SPEED } from "../settings";
@@ -11,6 +11,7 @@ import { facePositionToIdentifier, invertRotation } from "../cube/helper";
 import { VisualizationOptions } from "./visualizationOptions";
 import { Plane, PlaneIdentifier, RotationCommand } from "../cube/commands";
 import { sleep } from "../helper";
+import { FacePosition } from "../cube/types";
 
 export class VisualManager {
    private rubixCube: RubixCube;

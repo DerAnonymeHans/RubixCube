@@ -1,7 +1,8 @@
 /** @format */
 
+import { FacePosition } from "@/scripts/cube/types";
 import { RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { startVisualRotationHere } from "../../cube/helper";
 import { combineRedundantRotations } from "../helper";
 import { DEFAULT_ROTATION } from "../types";

@@ -2,11 +2,12 @@
 
 import { TileColor } from "../../cube/colors";
 import { RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { startVisualRotationHere } from "../../cube/helper";
 import { mapLocalToGlobalRotation, rotateSideFace } from "../helper";
 import { DEFAULT_ROTATION, LocalRelation } from "../types";
 import { CubeFace } from "../../cube/cubeFace";
+import { FacePosition } from "@/scripts/cube/types";
 
 export function finisher(cube: RubixCube) {
    if (cube.isSolved()) return;

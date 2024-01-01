@@ -1,12 +1,13 @@
 /** @format */
 
 import * as THREE from "three";
-import { FacePosition, RubixCube } from "../cube/cube";
+import { RubixCube } from "../cube/cube";
 import { RotationCommand, planeToAxis, PlaneIdentifier, Plane } from "../cube/commands";
 import { facePositionToIdentifier, roundAbout } from "../cube/helper";
 import { OFFSET, SCALE, SPEED } from "../settings";
 import { TileColor, getColor } from "../cube/colors";
 import { RoundedBoxGeometry } from "./roundedBoxGeometry";
+import { FacePosition } from "../cube/types";
 
 export class VisualRubixCube {
    public tiles: VisualRubixCubeTile[][][];
@@ -47,7 +48,7 @@ export class VisualRubixCube {
       this.tiles = VisualRubixCube.generateCubeTiles(cube);
    }
 
-   public rotate(command: RotationCommand, scene: THREE.Scene, speed: number): boolean {
+   public rotate(command: RotationCommand, scene: THREE.Scene, speed: number, i = 1): boolean {
       if (this.isRotating) return false;
       const rotationGroup = this.getRotationGroup(command);
       scene.remove(...rotationGroup.children);
@@ -71,6 +72,8 @@ export class VisualRubixCube {
 
          scene.add(...rotationGroup.children);
          this.isRotating = false;
+
+         if (i < command.count) this.rotate(command, scene, speed, i + 1);
       };
 
       const ROTATION_SPEED = 0.01 * speed;

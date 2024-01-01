@@ -1,6 +1,7 @@
+/** @format */
+
 import { TileColor } from "../cube/colors";
 import { RotationDirection } from "../cube/commands";
-import { FacePosition } from "../cube/cube";
 import { CubeFace } from "../cube/cubeFace";
 
 export enum LocalRelation {
@@ -24,6 +25,6 @@ export class TilePosition {
    }
 }
 
-export type SolvingAlgorithm = "beginners" | "advanced";
+export type SolvingAlgorithm = "beginners" | "advanced" | "twoPhase";
 
 export const DEFAULT_ROTATION = 1 as RotationDirection.left;
