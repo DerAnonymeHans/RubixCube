@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwoPhaseSolver
+﻿namespace TwoPhaseSolver
 {
     public class PruneTable
     {
@@ -36,10 +30,10 @@ namespace TwoPhaseSolver
 
         // Prune tables
 
-        public static readonly PruneTable pruneCO = BinLoad.loadPruneTable("tables\\prune\\co_ud_prun");
-        public static readonly PruneTable pruneEO = BinLoad.loadPruneTable("tables\\prune\\eo_ud_prun");
+        public static readonly PruneTable pruneCO = BinLoad.loadPruneTable("tables/prune/co_ud_prun");
+        public static readonly PruneTable pruneEO = BinLoad.loadPruneTable("tables/prune/eo_ud_prun");
 
-        public static readonly PruneTable pruneCP = BinLoad.loadPruneTable("tables\\prune\\cp_ud2_prun");
-        public static readonly PruneTable pruneEP2 = BinLoad.loadPruneTable("tables\\prune\\ep2_ud2_prun");
+        public static readonly PruneTable pruneCP = BinLoad.loadPruneTable("tables/prune/cp_ud2_prun");
+        public static readonly PruneTable pruneEP2 = BinLoad.loadPruneTable("tables/prune/ep2_ud2_prun");
     }
 }
