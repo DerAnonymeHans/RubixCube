@@ -4,11 +4,11 @@ import { TileColor } from "../cube/colors";
 import { RotationCommand, RotationDirection } from "../cube/commands";
 import { FacePosition } from "../cube/types";
 
-const apiBaseUrl = "http://localhost:5241";
+const apiBaseUrl = process.env.VUE_APP_API_BASE_URL;
 export async function fetchSolution(request: ApiSolvingRequest): Promise<RotationCommand[]> {
    const faceletsParam = request.cubeDescription.facelets.join("&facelets=");
    const response = (await fetch(
-      `${apiBaseUrl}/Solve?algorithm=${encodeURIComponent(
+      `${apiBaseUrl}Solve?algorithm=${encodeURIComponent(
          request.algorithm
       )}&facelets=${faceletsParam}`
    ).then((res) => res.json())) as ApiSolvingSolution;
