@@ -29,6 +29,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /App
 COPY --from=dotnet-build-env /Backend/out .
 COPY --from=vue-build-env /Frontend/dist ./Frontend
+COPY /Backend/TwoPhaseSolver/tables ./tables
 
 # install runtime dependencies
 RUN apt-get update && apt-get install -y apt-utils
