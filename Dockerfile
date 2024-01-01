@@ -35,6 +35,6 @@ RUN apt-get update && apt-get install -y apt-utils
 
 # EXPOSE 80
 # ENTRYPOINT ["dotnet", "RubixCubeBackend.dll"]
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet RubixCubeBackend.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Api.dll
 
 
