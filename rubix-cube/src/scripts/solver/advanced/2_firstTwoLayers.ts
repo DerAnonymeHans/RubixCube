@@ -1,8 +1,9 @@
 /** @format */
 
+import { FacePosition } from "@/scripts/cube/types";
 import { TileColor } from "../../cube/colors";
 import { RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { startVisualRotationHere } from "../../cube/helper";
 import {
    CornerTile,

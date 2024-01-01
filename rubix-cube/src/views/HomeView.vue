@@ -5,10 +5,10 @@
 import { useMq } from "vue3-mq";
 import CubeVisualization from "@/components/CubeVisualization.vue";
 import { ref, watch } from "vue";
-import { FacePosition, RubixCube } from "@/scripts/cube/cube";
+import { RubixCube } from "@/scripts/cube/cube";
 import Scanner from "@/components/Scanner.vue";
 import { CubeFace } from "@/scripts/cube/cubeFace";
-import { SavebleCube } from "@/scripts/cube/types";
+import { FacePosition, SavebleCube } from "@/scripts/cube/types";
 import { STATE } from "@/scripts/state";
 
 const mq = useMq();

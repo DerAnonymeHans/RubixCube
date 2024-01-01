@@ -11,10 +11,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
-
   <ItemGroup>
-		<Content Include="../../rubix-cube/dist/**" CopyToOutputDirectory="PreserveNewest" >
-	  </Content >
+    <ProjectReference Include="..\..\TwoPhaseSolver\TwoPhaseSolver\TwoPhaseSolver.csproj" />
   </ItemGroup>
 
 </Project>

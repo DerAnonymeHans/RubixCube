@@ -3,10 +3,11 @@
 import * as THREE from "three";
 import { TileColor } from "../cube/colors";
 import { Plane, RotationCommand, RotationDirection } from "../cube/commands";
-import { FacePosition, RubixCube } from "../cube/cube";
 import { DEFAULT_ROTATION, LocalRelation, TilePosition } from "./types";
 import { invertRotation } from "../cube/helper";
 import { CubeFace } from "../cube/cubeFace";
+import { FacePosition } from "../cube/types";
+import { RubixCube } from "../cube/cube";
 
 export function bringCenterToDifferentFace(from: CubeFace, to: FacePosition): RotationCommand[] {
    if (from.facePosition === to) return [];
@@ -242,38 +243,86 @@ export function getRotationForEdgeToDifferentEdgeOnFace(
 }
 
 export function combineRedundantRotations(cube: RubixCube) {
+   let newRotations: RotationCommand[] = [];
    let numberOfEqualRotations = 1;
-   let lastRotation: RotationCommand | null = null;
-   for (let idx = cube.rotations.length - 1; idx >= 0; idx--) {
-      const rotation = cube.rotations[idx];
 
-      if (lastRotation === null) {
-         lastRotation = rotation;
-         continue;
-      }
-      if (lastRotation.equals(rotation)) {
+   for (let i = 1; i <= cube.rotations.length; i++) {
+      const rotation: RotationCommand | undefined = cube.rotations[i];
+      const lastRotation = cube.rotations[i - 1];
+
+      if (rotation?.equals(lastRotation)) {
          numberOfEqualRotations++;
          continue;
       }
 
-      if (numberOfEqualRotations >= 3) {
-         if (numberOfEqualRotations % 4 === 0) {
-            cube.rotations.splice(idx + 1, numberOfEqualRotations);
-         } else if (numberOfEqualRotations % 4 === 1) {
-            cube.rotations.splice(idx + 1, numberOfEqualRotations, lastRotation);
-         } else if (numberOfEqualRotations % 4 === 2) {
-            cube.rotations.splice(idx + 1, numberOfEqualRotations, lastRotation, lastRotation);
-         } else if (numberOfEqualRotations % 4 === 3) {
-            cube.rotations.splice(idx + 1, numberOfEqualRotations, invertRotation(lastRotation));
-         }
-         lastRotation = cube.rotations.length - 1 >= idx + 1 ? cube.rotations[idx + 1] : null;
-      } else if (lastRotation.equals(invertRotation(rotation))) {
-         cube.rotations.splice(idx, 2);
-         lastRotation = cube.rotations.length - 1 >= idx ? cube.rotations[idx] : null;
-         continue;
+      switch (numberOfEqualRotations % 4) {
+         case 1:
+            newRotations.push(lastRotation);
+            break;
+         case 2:
+            newRotations.push(lastRotation, lastRotation.clone());
+            break;
+         case 3:
+            newRotations.push(invertRotation(lastRotation));
+            break;
+         default:
+            break;
       }
 
-      lastRotation = rotation;
       numberOfEqualRotations = 1;
    }
+
+   for (let i = 1; i < newRotations.length; i++) {
+      let rotation = newRotations[i];
+      let lastRotation = newRotations[i - 1];
+
+      if (!rotation.equals(invertRotation(lastRotation))) continue;
+
+      newRotations.splice(i - 1, 2);
+      i = Math.max(1, i - 2);
+   }
+
+   for (let i = 1; i < newRotations.length; i++) {
+      let rotation = newRotations[i];
+      let lastRotation = newRotations[i - 1];
+
+      if (rotation.equals(lastRotation)) {
+         newRotations[i - 1] = lastRotation.clone().twice();
+         newRotations.splice(i, 1);
+      }
+   }
+
+   cube.rotations = newRotations;
+}
+
+export function getCubesPermutationRepresentation(cube: RubixCube): number[] {
+   function getFacelets(face: CubeFace): number[] {
+      return [...face.getRow(0), face.getCell(1, 0), face.getCell(1, 2), ...face.getRow(2)];
+   }
+
+   function getFace(color: TileColor) {
+      return cube.faces.find((face) => face.faceColor === color)!;
+   }
+
+   const frontFace = getFace(TileColor.orange);
+
+   const facelets = [
+      ...getFacelets(cube.top),
+      ...getFacelets(cube.right),
+      ...getFacelets(cube.front),
+      ...getFacelets(cube.left),
+      ...getFacelets(cube.back),
+      ...getFacelets(cube.bottom),
+   ];
+
+   for (let i = 0; i < facelets.length; i++) {
+      if (facelets[i] === cube.top.faceColor) facelets[i] = 0;
+      else if (facelets[i] === cube.right.faceColor) facelets[i] = 1;
+      else if (facelets[i] === cube.front.faceColor) facelets[i] = 2;
+      else if (facelets[i] === cube.left.faceColor) facelets[i] = 3;
+      else if (facelets[i] === cube.back.faceColor) facelets[i] = 4;
+      else if (facelets[i] === cube.bottom.faceColor) facelets[i] = 5;
+   }
+
+   return facelets;
 }

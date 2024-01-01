@@ -3,7 +3,7 @@
 import { Face } from "three";
 import { TileColor } from "../../cube/colors";
 import { Plane, PlaneIdentifier, RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import {
    bringCenterToDifferentFace,
    doesEdgeMatchItsCenter,
@@ -17,6 +17,7 @@ import {
    startVisualRotationHere,
 } from "../../cube/helper";
 import { CubeFace, FaceRelation } from "../../cube/cubeFace";
+import { FacePosition } from "@/scripts/cube/types";
 
 export function makeWhiteCross(cube: RubixCube) {
    // find the white center

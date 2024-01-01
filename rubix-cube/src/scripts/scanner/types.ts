@@ -3,9 +3,9 @@
 import * as THREE from "three";
 import { TileColor } from "../cube/colors";
 import { Plane, RotationCommand, RotationDirection } from "../cube/commands";
-import { FacePosition } from "../cube/cube";
 import { LocalRelation } from "../solver/types";
 import { CornerTile } from "../solver/helper";
+import { FacePosition } from "../cube/types";
 
 export class ImagePoint {
    x: number;

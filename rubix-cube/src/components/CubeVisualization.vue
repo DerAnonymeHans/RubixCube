@@ -11,8 +11,9 @@ import * as THREE from "three";
 
 import { randomRotation } from "@/scripts/cube/helper";
 import { SolvingAlgorithm } from "@/scripts/solver/types";
+import { Plane, RotationCommand, RotationDirection } from "@/scripts/cube/commands";
 
-const ALGOS: SolvingAlgorithm[] = ["beginners", "advanced"];
+const ALGOS: SolvingAlgorithm[] = ["beginners", "advanced", "twoPhase"];
 
 interface Props {
    type: "random" | "normal";
@@ -68,7 +69,32 @@ watch(
       }
       if (updated === "random") {
          startRandomRotations();
-         rubixCube.value.shuffle(20);
+         // rubixCube.value.shuffle(20);
+         rubixCube.value.rotateMultipleTimes(
+            [
+               new RotationCommand(Plane.xPlane, 2, RotationDirection.right),
+               new RotationCommand(Plane.yPlane, 1, RotationDirection.right),
+               new RotationCommand(Plane.xPlane, 2, RotationDirection.right),
+               new RotationCommand(Plane.zPlane, 2, RotationDirection.right),
+               new RotationCommand(Plane.xPlane, 2, RotationDirection.right),
+               new RotationCommand(Plane.xPlane, 0, RotationDirection.right),
+               new RotationCommand(Plane.xPlane, 1, RotationDirection.right),
+               new RotationCommand(Plane.yPlane, 0, RotationDirection.right),
+               new RotationCommand(Plane.xPlane, 1, RotationDirection.left),
+               new RotationCommand(Plane.xPlane, 1, RotationDirection.right),
+               new RotationCommand(Plane.yPlane, 1, RotationDirection.left),
+               new RotationCommand(Plane.yPlane, 2, RotationDirection.left),
+               new RotationCommand(Plane.zPlane, 1, RotationDirection.left),
+               new RotationCommand(Plane.yPlane, 1, RotationDirection.left),
+               new RotationCommand(Plane.yPlane, 0, RotationDirection.right),
+               new RotationCommand(Plane.xPlane, 1, RotationDirection.left),
+               new RotationCommand(Plane.xPlane, 2, RotationDirection.left),
+               new RotationCommand(Plane.xPlane, 1, RotationDirection.left),
+               new RotationCommand(Plane.zPlane, 2, RotationDirection.left),
+               new RotationCommand(Plane.zPlane, 1, RotationDirection.right),
+            ],
+            true
+         );
          rubixCube.value.printShuffles();
       }
    },
@@ -83,7 +109,7 @@ function createVisualManager() {
       {
          enableCameraMovement: true,
          enableEditing: false,
-         enableRotationShortcuts: true,
+         enableRotationShortcuts: false,
          cameraOptions: {
             distance: 6,
             defaultPosition: new THREE.Vector3(1, 1, 1),
@@ -155,6 +181,20 @@ window.addEventListener("resize", (e) => {
 });
 window.addEventListener("touchend", () => {
    stopAutoRotation();
+});
+
+window.addEventListener("keypress", (e) => {
+   if (e.code === "Space") {
+      next();
+   }
+});
+window.addEventListener("keydown", (e) => {
+   if (e.key === "ArrowRight") {
+      next();
+   }
+   if (e.key === "ArrowLeft") {
+      previous();
+   }
 });
 </script>
 

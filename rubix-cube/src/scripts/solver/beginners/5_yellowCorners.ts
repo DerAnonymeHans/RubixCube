@@ -1,10 +1,13 @@
+/** @format */
+
 import { TileColor } from "../../cube/colors";
 import { RotationCommand } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { startVisualRotationHere } from "../../cube/helper";
 import { getCornerTiles, getCorners, mapLocalToGlobalRotation } from "../helper";
 import { DEFAULT_ROTATION, LocalRelation } from "../types";
 import { CubeFace } from "../../cube/cubeFace";
+import { FacePosition } from "@/scripts/cube/types";
 
 export function solveYellowFace(cube: RubixCube) {
    const yellowCorners = getCorners(cube.top).filter((tile) => tile.color === TileColor.yellow);
@@ -47,8 +50,9 @@ function tryApplySune(cube: RubixCube): boolean {
       const face = neighbour.relation.face;
       const cornerTiles = getCornerTiles(face, face.neighbours.left.face, cube.top);
       const isCornerWithTopYellow =
-         cornerTiles.find((tile) => tile.color === TileColor.yellow && tile.face.facePosition === FacePosition.top) !==
-         undefined;
+         cornerTiles.find(
+            (tile) => tile.color === TileColor.yellow && tile.face.facePosition === FacePosition.top
+         ) !== undefined;
 
       if (!isCornerWithTopYellow) continue;
 

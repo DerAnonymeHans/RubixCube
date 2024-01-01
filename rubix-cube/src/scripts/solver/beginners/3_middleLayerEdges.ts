@@ -1,14 +1,18 @@
+/** @format */
+
 import { TileColor } from "../../cube/colors";
 import { Plane, RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { startVisualRotationHere } from "../../cube/helper";
 import { mapLocalToGlobalRotation } from "../helper";
 import { DEFAULT_ROTATION, LocalRelation } from "../types";
 import { CubeFace } from "../../cube/cubeFace";
+import { FacePosition } from "@/scripts/cube/types";
 
 function canEdgeBeSwappedWithYellowEdge(face: CubeFace, col: number, neighbour: CubeFace) {
    return (
-      (face.getCell(1, col) !== face.getCell(1, 1) || neighbour.getCell(1, 2 - col) !== neighbour.getCell(1, 1)) &&
+      (face.getCell(1, col) !== face.getCell(1, 1) ||
+         neighbour.getCell(1, 2 - col) !== neighbour.getCell(1, 1)) &&
       face.getCell(1, col) !== TileColor.yellow &&
       neighbour.getCell(1, col) !== TileColor.yellow
    );
@@ -33,8 +37,10 @@ export function solveMiddleLayerEdges(cube: RubixCube) {
          const edgeTop = face.neighbours.top.getTouchingArrayUnaligned()[1];
          const edge = face.getCell(0, 1);
 
-         const wouldTopEdgeSolveRight = edge === center && edgeTop === face.neighbours.right.face.getCell(1, 1);
-         const wouldTopEdgeSolveLeft = edge === center && edgeTop === face.neighbours.left.face.getCell(1, 1);
+         const wouldTopEdgeSolveRight =
+            edge === center && edgeTop === face.neighbours.right.face.getCell(1, 1);
+         const wouldTopEdgeSolveLeft =
+            edge === center && edgeTop === face.neighbours.left.face.getCell(1, 1);
 
          if (
             face.getCell(1, 0) === center &&
@@ -47,14 +53,22 @@ export function solveMiddleLayerEdges(cube: RubixCube) {
          }
 
          if (allowSwitchingWithYellowEdges) {
-            const canRightEdgeBeSwapped = canEdgeBeSwappedWithYellowEdge(face, 2, face.neighbours.right.face);
+            const canRightEdgeBeSwapped = canEdgeBeSwappedWithYellowEdge(
+               face,
+               2,
+               face.neighbours.right.face
+            );
             if (canRightEdgeBeSwapped) {
                bringEdgeToTheRight(cube, face);
                allowSwitchingWithYellowEdges = false;
                continue;
             }
 
-            const canLeftEdgeBeSwapped = canEdgeBeSwappedWithYellowEdge(face, 0, face.neighbours.left.face);
+            const canLeftEdgeBeSwapped = canEdgeBeSwappedWithYellowEdge(
+               face,
+               0,
+               face.neighbours.left.face
+            );
             if (canLeftEdgeBeSwapped) {
                bringEdgeToTheLeft(cube, face);
                allowSwitchingWithYellowEdges = false;
@@ -89,7 +103,8 @@ export function solveMiddleLayerEdges(cube: RubixCube) {
          for (const neighbour of cube.top.neighbourList) {
             const isYellowEdge =
                neighbour.relation.face.getCell(0, 1) === TileColor.yellow ||
-               neighbour.relation.face.neighbours.top.getTouchingArrayUnaligned()[1] === TileColor.yellow;
+               neighbour.relation.face.neighbours.top.getTouchingArrayUnaligned()[1] ===
+                  TileColor.yellow;
 
             if (isYellowEdge) {
                numberOfYellowEdges++;

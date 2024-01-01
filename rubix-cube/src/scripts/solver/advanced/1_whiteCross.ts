@@ -2,7 +2,7 @@
 
 import { TileColor } from "../../cube/colors";
 import { RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import {
    bringCenterToDifferentFace,
    doesEdgeMatchItsCenter,
@@ -12,6 +12,7 @@ import {
 import { DEFAULT_ROTATION, LocalRelation } from "../types";
 import { invertRotation } from "../../cube/helper";
 import { CubeFace } from "../../cube/cubeFace";
+import { FacePosition } from "@/scripts/cube/types";
 
 export function solveWhiteCross(cube: RubixCube) {
    // find the white center

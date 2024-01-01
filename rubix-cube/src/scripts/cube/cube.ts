@@ -14,15 +14,7 @@ import { CircleArray, copyObject, facePositionToIdentifier, randomRotation } fro
 import { LocalRelation, SolvingAlgorithm, TilePosition } from "../solver/types";
 import { solveRubixCube } from "../solver/solver";
 import { CubeFace, FaceRelation, FaceRelationType, InvertOn } from "./cubeFace";
-
-export enum FacePosition {
-   back = 0,
-   left = 1,
-   bottom = 2,
-   right = 3,
-   front = 4,
-   top = 5,
-}
+import { FacePosition } from "./types";
 
 export class RubixCube {
    public faces: CubeFace[];
@@ -32,6 +24,7 @@ export class RubixCube {
    private solutionCache: Record<SolvingAlgorithm, RotationCommand[] | null> = {
       advanced: null,
       beginners: null,
+      twoPhase: null,
    };
 
    constructor() {
@@ -132,11 +125,13 @@ export class RubixCube {
       if (isShuffle) this.shuffles.push(command);
       else this.rotations.push(command);
 
-      if (command.idx === 1) {
-         this.rotateMiddle(command);
-      } else if (command.idx === 3) {
-      } else {
-         this.rotateFace(command);
+      for (let i = 0; i < command.count; i++) {
+         if (command.idx === 1) {
+            this.rotateMiddle(command);
+         } else if (command.idx === 3) {
+         } else {
+            this.rotateFace(command);
+         }
       }
    }
 
@@ -300,14 +295,14 @@ export class RubixCube {
       this.clearCache();
    }
 
-   public solve(method: SolvingAlgorithm) {
+   public async solve(method: SolvingAlgorithm): Promise<void> {
       // if (this.solutionCache[method] !== null) {
       //    this.rotations = [...this.solutionCache[method]!];
       //    return;
       // }
       this.setCurrentFacesAsStartingFaces();
       this.rotations.splice(0, Infinity);
-      solveRubixCube(this, method);
+      await solveRubixCube(this, method);
       this.solutionCache[method] = [...this.rotations];
    }
 }

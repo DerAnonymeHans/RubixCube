@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace RubixCubeBackend.Controllers;
-[ApiController]
+
 [Route("[controller]")]
 public class FrontendController : ControllerBase
 {

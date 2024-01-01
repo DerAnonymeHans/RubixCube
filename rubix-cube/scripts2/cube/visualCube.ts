@@ -1,11 +1,12 @@
 /** @format */
 
 import * as THREE from "three";
-import { FacePosition, RubixCube } from "./cube";
+import { RubixCube } from "./cube";
 import { RotationCommand, planeToAxis, PlaneIdentifier, Plane } from "./commands";
 import { facePositionToIdentifier, roundAbout } from "./helper";
 import { OFFSET, SCALE, SPEED } from "../settings";
 import { TileColor, getColor } from "./colors";
+import { FacePosition } from "./types";
 
 export class VisualRubixCube {
    public tiles: VisualRubixCubeTile[][][];
@@ -89,9 +90,14 @@ export class VisualRubixCube {
          }
 
          requestAnimationFrame(animateRotation);
-         rotationGroup.rotation[axis] += ROTATION_SPEED * command.direction * (command.idx === 0 ? -1 : 1);
+         rotationGroup.rotation[axis] +=
+            ROTATION_SPEED * command.direction * (command.idx === 0 ? -1 : 1);
 
-         let isLastRotation = roundAbout(Math.abs(rotationGroup.rotation[axis]), Math.PI / 2, ROTATION_SPEED);
+         let isLastRotation = roundAbout(
+            Math.abs(rotationGroup.rotation[axis]),
+            Math.PI / 2,
+            ROTATION_SPEED
+         );
          if (isLastRotation) {
             rotationGroup.rotation[axis] = (Math.PI / 2) * Math.sign(rotationGroup.rotation[axis]);
          }
@@ -136,7 +142,11 @@ export class VisualRubixCube {
             zPlane.push(yPlane);
             for (let x = 0; x < 3; x++) {
                const mesh = this.generateCubeTile();
-               mesh.position.set((x + OFFSET.x) * SCALE, (y + OFFSET.y) * SCALE, (z + OFFSET.z) * SCALE);
+               mesh.position.set(
+                  (x + OFFSET.x) * SCALE,
+                  (y + OFFSET.y) * SCALE,
+                  (z + OFFSET.z) * SCALE
+               );
                yPlane.push(mesh);
 
                if (x === 0) {
@@ -223,7 +233,9 @@ export class VisualRubixCubeTile extends THREE.Mesh {
          colorAttribute = this.geometry.getAttribute("color");
       }
 
-      let idx = VisualRubixCubeTile.colorMarkers.findIndex((p) => p === position) * VisualRubixCubeTile.colorLengthOfFace;
+      let idx =
+         VisualRubixCubeTile.colorMarkers.findIndex((p) => p === position) *
+         VisualRubixCubeTile.colorLengthOfFace;
 
       const colorValue = getColor(color);
       for (let i = 0; i < 4; i++) {

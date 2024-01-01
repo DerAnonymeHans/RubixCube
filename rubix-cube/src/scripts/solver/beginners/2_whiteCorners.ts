@@ -1,10 +1,13 @@
+/** @format */
+
 import { TileColor } from "../../cube/colors";
 import { Plane, RotationCommand, RotationDirection } from "../../cube/commands";
-import { FacePosition, RubixCube } from "../../cube/cube";
+import { RubixCube } from "../../cube/cube";
 import { startVisualRotationHere } from "../../cube/helper";
 import { CornerTile, getCornerTiles, getCorners, mapLocalToGlobalRotation } from "../helper";
 import { DEFAULT_ROTATION, LocalRelation, TilePosition } from "../types";
 import { CubeFace } from "../../cube/cubeFace";
+import { FacePosition } from "@/scripts/cube/types";
 
 export function createWhiteCorners(cube: RubixCube) {
    let i = 0;
@@ -76,8 +79,9 @@ function bringBottomCornerToTop(cube: RubixCube, face: CubeFace) {
 
 function isTopRightCornerSolved(topRightCorner: CornerTile[], face: CubeFace) {
    return (
-      topRightCorner.find((tile) => tile.color === TileColor.white && tile.face.facePosition === FacePosition.top) !==
-         undefined &&
+      topRightCorner.find(
+         (tile) => tile.color === TileColor.white && tile.face.facePosition === FacePosition.top
+      ) !== undefined &&
       topRightCorner.every(
          (tile) =>
             tile.color === TileColor.white ||

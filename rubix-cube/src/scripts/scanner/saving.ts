@@ -1,8 +1,8 @@
 /** @format */
 
 import { Face } from "three";
-import { FacePosition, RubixCube } from "../cube/cube";
-import { SavebleCube } from "../cube/types";
+import { RubixCube } from "../cube/cube";
+import { FacePosition, SavebleCube } from "../cube/types";
 import { Corner, Edge, Phase } from "./types";
 import { TileColor } from "../cube/colors";
 import { CubeFace } from "../cube/cubeFace";

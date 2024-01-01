@@ -1,14 +1,16 @@
+/** @format */
+
 import * as THREE from "three";
-import { FacePosition } from "./cube";
 import { facePositionToIdentifier } from "./helper";
 import { LocalRelation } from "../solver/types";
 import { CubeFace } from "./cubeFace";
+import { FacePosition } from "./types";
 
 export class RotationCommand {
    plane: Plane;
    idx: number;
    direction: RotationDirection;
-
+   count = 1;
    msg: string = "";
 
    constructor(plane: Plane, idx: number, direction: RotationDirection, msg = "") {
@@ -27,48 +29,92 @@ export class RotationCommand {
       })`;
    }
    public equals(other: RotationCommand): boolean {
-      return this.plane === other.plane && this.idx === other.idx && this.direction === other.direction;
+      return (
+         this.plane === other.plane &&
+         this.idx === other.idx &&
+         this.direction === other.direction &&
+         this.count === other.count
+      );
    }
 
-   public static fromIdentifier(identifier: PlaneIdentifier, direction: RotationDirection, msg = ""): RotationCommand {
+   public clone(): RotationCommand {
+      const cmd = new RotationCommand(this.plane, this.idx, this.direction, this.msg);
+      cmd.count = this.count;
+      return cmd;
+   }
+
+   public twice(): RotationCommand {
+      this.count = 2;
+      return this;
+   }
+
+   public static fromIdentifier(
+      identifier: PlaneIdentifier,
+      direction: RotationDirection,
+      msg = ""
+   ): RotationCommand {
       return new RotationCommand(identifier.plane, identifier.idx, direction, msg);
    }
 
-   public static fromFacePosition(position: FacePosition, direction: RotationDirection, msg = ""): RotationCommand {
+   public static fromFacePosition(
+      position: FacePosition,
+      direction: RotationDirection,
+      msg = ""
+   ): RotationCommand {
       return RotationCommand.fromIdentifier(facePositionToIdentifier(position), direction, msg);
    }
 
    public static fromLocalRotation(local: CubeFace, rotation: LocalRelation, idx: number) {
       if (rotation === LocalRelation.left || rotation == LocalRelation.right) {
-         const rightIsRight = rotation === LocalRelation.right ? RotationDirection.right : RotationDirection.left;
+         const rightIsRight =
+            rotation === LocalRelation.right ? RotationDirection.right : RotationDirection.left;
 
-         const leftIsRight = rotation === LocalRelation.left ? RotationDirection.right : RotationDirection.left;
+         const leftIsRight =
+            rotation === LocalRelation.left ? RotationDirection.right : RotationDirection.left;
 
          if (local.facePosition === FacePosition.top) {
             return new RotationCommand(Plane.zPlane, idx, idx > 0 ? rightIsRight : leftIsRight);
          }
          if (local.facePosition === FacePosition.bottom) {
-            return new RotationCommand(Plane.zPlane, 2 - idx, idx === 2 ? rightIsRight : leftIsRight);
+            return new RotationCommand(
+               Plane.zPlane,
+               2 - idx,
+               idx === 2 ? rightIsRight : leftIsRight
+            );
          }
 
          if (local.facePosition === FacePosition.right) {
-            return new RotationCommand(Plane.yPlane, 2 - idx, idx === 2 ? rightIsRight : leftIsRight);
+            return new RotationCommand(
+               Plane.yPlane,
+               2 - idx,
+               idx === 2 ? rightIsRight : leftIsRight
+            );
          }
          if (local.facePosition === FacePosition.left) {
             return new RotationCommand(Plane.yPlane, 2 - idx, idx < 2 ? leftIsRight : rightIsRight);
          }
 
          if (local.facePosition === FacePosition.front) {
-            return new RotationCommand(Plane.yPlane, 2 - idx, idx === 2 ? rightIsRight : leftIsRight);
+            return new RotationCommand(
+               Plane.yPlane,
+               2 - idx,
+               idx === 2 ? rightIsRight : leftIsRight
+            );
          }
          if (local.facePosition === FacePosition.back) {
-            return new RotationCommand(Plane.yPlane, 2 - idx, idx === 2 ? rightIsRight : leftIsRight);
+            return new RotationCommand(
+               Plane.yPlane,
+               2 - idx,
+               idx === 2 ? rightIsRight : leftIsRight
+            );
          }
       }
 
-      const topIsRight = rotation === LocalRelation.up ? RotationDirection.right : RotationDirection.left;
+      const topIsRight =
+         rotation === LocalRelation.up ? RotationDirection.right : RotationDirection.left;
 
-      const topIsLeft = rotation === LocalRelation.up ? RotationDirection.left : RotationDirection.right;
+      const topIsLeft =
+         rotation === LocalRelation.up ? RotationDirection.left : RotationDirection.right;
 
       if (local.facePosition === FacePosition.right) {
          return new RotationCommand(Plane.zPlane, 2 - idx, idx < 2 ? topIsLeft : topIsRight);
