@@ -26,40 +26,22 @@ const emit = defineEmits<{
 
 const phase = ref(0);
 const phases = ref<Phase[]>([
-   // new Phase(FacePosition.front, "Vorne", [
-   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   // ]),
-   // new Phase(FacePosition.right, "Rechts", [
-   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   // ]),
-   // new Phase(FacePosition.back, "Hinten", [
-   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   // ]),
-   // new Phase(FacePosition.top, "Oben", [
-   //    new RotationCommand(Plane.xPlane, 3, RotationDirection.left),
-   // ]),
-   // new Phase(FacePosition.left, "Links", [
-   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   // ]),
-   // new Phase(FacePosition.bottom, "Unten", [
-   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   // ]),
-   new Phase(FacePosition.top, "Vorne", [
+   new Phase(FacePosition.front, "Vorne", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
    new Phase(FacePosition.right, "Rechts", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
-   new Phase(FacePosition.bottom, "Hinten", [
+   new Phase(FacePosition.back, "Hinten", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
-   new Phase(FacePosition.back, "Oben", [
+   new Phase(FacePosition.top, "Oben", [
       new RotationCommand(Plane.xPlane, 3, RotationDirection.left),
    ]),
    new Phase(FacePosition.left, "Links", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
-   new Phase(FacePosition.front, "Unten", [
+   new Phase(FacePosition.bottom, "Unten", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
 ]);
