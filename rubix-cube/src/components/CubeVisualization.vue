@@ -11,7 +11,6 @@ import * as THREE from "three";
 
 import { randomRotation } from "@/scripts/cube/helper";
 import { SolvingAlgorithm } from "@/scripts/solver/types";
-import { Plane, RotationCommand, RotationDirection } from "@/scripts/cube/commands";
 
 const ALGOS: SolvingAlgorithm[] = ["beginners", "advanced", "twoPhase"];
 
@@ -28,7 +27,7 @@ defineEmits<{
 
 const mq = useMq();
 const randomRotationsRunning = ref(false);
-const algo = ref<SolvingAlgorithm>("advanced");
+const algo = ref<SolvingAlgorithm>("twoPhase");
 
 const randomIntervalId = ref<number | undefined>(undefined);
 const rotationIntervalId = ref<number | undefined>(undefined);
@@ -201,7 +200,7 @@ window.addEventListener("keydown", (e) => {
                <div>
                   <label for="algoSelect">Algorithmus: </label>
                   <select id="algoSelect" v-model="algo">
-                     <option v-for="algo in ALGOS" :value="algo">{{ algo }}</option>
+                     <option v-for="algo in ALGOS" :value="algo">{{ $t(`algo.${algo}`) }}</option>
                   </select>
                </div>
                <p id="stepDisplay" class="step-display">

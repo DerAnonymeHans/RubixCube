@@ -5,6 +5,14 @@ import App from "./App.vue";
 import router from "./router";
 // @ts-expect-error
 import { Vue3Mq } from "vue3-mq";
+import { createI18n } from "vue-i18n";
+import { langs } from "./i18/langs";
+
+const i18n = createI18n({
+   locale: "de",
+   fallbackLocale: "en",
+   messages: langs,
+});
 
 createApp(App)
    .use(router)
@@ -18,4 +26,5 @@ createApp(App)
          xxl: 1400,
       },
    })
+   .use(i18n)
    .mount("#app");

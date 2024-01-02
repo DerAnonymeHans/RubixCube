@@ -1,5 +1,7 @@
 <!-- @format -->
 <script setup lang="ts">
+// @ts-expect-error
+import { useMq } from "vue3-mq";
 import { computed, onMounted, ref } from "vue";
 import { Image, ThresholdAlgorithm } from "image-js";
 import { TileColor, getColorString, tileColors } from "@/scripts/cube/colors";
@@ -24,22 +26,40 @@ const emit = defineEmits<{
 
 const phase = ref(0);
 const phases = ref<Phase[]>([
-   new Phase(FacePosition.front, "Vorne", [
+   // new Phase(FacePosition.front, "Vorne", [
+   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
+   // ]),
+   // new Phase(FacePosition.right, "Rechts", [
+   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
+   // ]),
+   // new Phase(FacePosition.back, "Hinten", [
+   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
+   // ]),
+   // new Phase(FacePosition.top, "Oben", [
+   //    new RotationCommand(Plane.xPlane, 3, RotationDirection.left),
+   // ]),
+   // new Phase(FacePosition.left, "Links", [
+   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
+   // ]),
+   // new Phase(FacePosition.bottom, "Unten", [
+   //    new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
+   // ]),
+   new Phase(FacePosition.top, "Vorne", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
    new Phase(FacePosition.right, "Rechts", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
-   new Phase(FacePosition.back, "Hinten", [
+   new Phase(FacePosition.bottom, "Hinten", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
-   new Phase(FacePosition.top, "Oben", [
+   new Phase(FacePosition.back, "Oben", [
       new RotationCommand(Plane.xPlane, 3, RotationDirection.left),
    ]),
    new Phase(FacePosition.left, "Links", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
-   new Phase(FacePosition.bottom, "Unten", [
+   new Phase(FacePosition.front, "Unten", [
       new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
    ]),
 ]);
@@ -57,6 +77,7 @@ const constraints = ref<MediaStreamConstraints>({
       facingMode: "environment",
    },
 });
+const mq = useMq();
 const devices = ref<MediaDeviceInfo[]>([]);
 const selectedDevice = ref<string | null>(null);
 const selectedColors = ref<TileColor[]>([]);
@@ -233,9 +254,13 @@ const previousRotations = computed<RotationCommand[]>(
                   <option
                      v-for="tileColor in tileColors"
                      :key="tileColor"
-                     :style="`background-color: ${getColorString(tileColor)}; color: #0000`"
+                     :style="
+                        mq.lgPlus
+                           ? `background-color: ${getColorString(tileColor)}; color: #000`
+                           : `background-color: gray; color: ${getColorString(tileColor)}`
+                     "
                   >
-                     {{ tileColor }}
+                     {{ $t(`color.${TileColor[tileColor]}`) }}
                   </option>
                </select>
             </div>
