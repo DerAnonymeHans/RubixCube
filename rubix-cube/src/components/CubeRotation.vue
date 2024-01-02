@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <script lang="ts" setup>
-import { FacePosition, RubixCube } from "@/scripts/cube/cube";
+import { RubixCube } from "@/scripts/cube/cube";
 import { VisualManager } from "@/scripts/visuals/visualManager";
 import { VisualizationOptions } from "@/scripts/visuals/visualizationOptions";
 import { onMounted, onUnmounted, ref, watch } from "vue";
@@ -10,6 +10,7 @@ import { TileColor } from "@/scripts/cube/colors";
 import { CubeFace } from "@/scripts/cube/cubeFace";
 import { RotationCommand } from "@/scripts/cube/commands";
 import { sleep } from "@/scripts/helper";
+import { FacePosition } from "@/scripts/cube/types";
 
 interface Props {
    cubeFaces: CubeFace[];

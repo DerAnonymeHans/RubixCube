@@ -3,10 +3,9 @@
 import { computed, onMounted, ref } from "vue";
 import { Image, ThresholdAlgorithm } from "image-js";
 import { TileColor, getColorString, tileColors } from "@/scripts/cube/colors";
-import { FacePosition } from "@/scripts/cube/cube";
 import router from "@/router";
 import { analyzeFaceImage } from "@/scripts/scanner/scanner";
-import { SavebleCube } from "@/scripts/cube/types";
+import { FacePosition, SavebleCube } from "@/scripts/cube/types";
 import CubeRotation from "./CubeRotation.vue";
 import {
    Plane,
