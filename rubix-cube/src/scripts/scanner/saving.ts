@@ -52,25 +52,46 @@ export function phaseColorsToCubeFace(facePosition: FacePosition, colors: TileCo
       TileColor.unspecified,
       TileColor.unspecified,
    ];
-   if (facePosition === FacePosition.front) {
+   // if (facePosition === FacePosition.front) {
+   //    matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
+   // } else if (facePosition === FacePosition.right) {
+   //    matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
+   // } else if (facePosition === FacePosition.back) {
+   //    matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
+   // } else if (facePosition === FacePosition.top) {
+   //    matrix = [
+   //       colors.slice(6, 9).reverse(),
+   //       colors.slice(3, 6).reverse(),
+   //       colors.slice(0, 3).reverse(),
+   //    ];
+   // } else if (facePosition === FacePosition.left) {
+   //    matrix = [
+   //       [colors[6], colors[3], colors[0]],
+   //       [colors[7], colors[4], colors[1]],
+   //       [colors[8], colors[5], colors[2]],
+   //    ];
+   // } else if (facePosition === FacePosition.bottom) {
+   //    matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
+   // }
+   if (facePosition === FacePosition.top) {
       matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
    } else if (facePosition === FacePosition.right) {
-      matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
-   } else if (facePosition === FacePosition.back) {
-      matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
-   } else if (facePosition === FacePosition.top) {
-      matrix = [
-         colors.slice(6, 9).reverse(),
-         colors.slice(3, 6).reverse(),
-         colors.slice(0, 3).reverse(),
-      ];
-   } else if (facePosition === FacePosition.left) {
       matrix = [
          [colors[6], colors[3], colors[0]],
          [colors[7], colors[4], colors[1]],
          [colors[8], colors[5], colors[2]],
       ];
    } else if (facePosition === FacePosition.bottom) {
+      matrix = [
+         colors.slice(6, 9).reverse(),
+         colors.slice(3, 6).reverse(),
+         colors.slice(0, 3).reverse(),
+      ];
+   } else if (facePosition === FacePosition.back) {
+      matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
+   } else if (facePosition === FacePosition.left) {
+      matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
+   } else if (facePosition === FacePosition.front) {
       matrix = [colors.slice(0, 3), colors.slice(3, 6), colors.slice(6, 9)];
    }
 
