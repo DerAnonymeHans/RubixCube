@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "vue-i18n": "^9.8.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-private-methods": "^7.23.3"
   }
 }

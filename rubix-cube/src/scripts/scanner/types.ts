@@ -87,12 +87,10 @@ export const EXPECTED_COLORS: { c: Color; vec: THREE.Vector4; min: number }[] = 
 
 export class Phase {
    key: FacePosition;
-   title: string;
    rotationsForwards: RotationCommand[];
    colors: TileColor[] = [];
-   constructor(key: FacePosition, title: string, rotationsForwards: RotationCommand[]) {
+   constructor(key: FacePosition, rotationsForwards: RotationCommand[]) {
       this.key = key;
-      this.title = title;
       this.rotationsForwards = rotationsForwards;
    }
 }

@@ -17,4 +17,26 @@ export interface LanguageTree {
       advanced: string;
       twoPhase: string;
    };
+   scanner: {
+      phases: {
+         front: string;
+         back: string;
+         left: string;
+         right: string;
+         top: string;
+         bottom: string;
+      };
+      buttons: {
+         restart: string;
+         solve: string;
+         colorsMatch: string;
+         scan: string;
+         goBack: string;
+      };
+      messages: {
+         checkColors: string;
+         placingExplanation: string;
+         rotateInstruction: string;
+      };
+   };
 }

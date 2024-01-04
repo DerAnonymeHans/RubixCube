@@ -26,24 +26,12 @@ const emit = defineEmits<{
 
 const phase = ref(0);
 const phases = ref<Phase[]>([
-   new Phase(FacePosition.front, "Vorne", [
-      new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   ]),
-   new Phase(FacePosition.right, "Rechts", [
-      new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   ]),
-   new Phase(FacePosition.back, "Hinten", [
-      new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   ]),
-   new Phase(FacePosition.top, "Oben", [
-      new RotationCommand(Plane.xPlane, 3, RotationDirection.left),
-   ]),
-   new Phase(FacePosition.left, "Links", [
-      new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   ]),
-   new Phase(FacePosition.bottom, "Unten", [
-      new RotationCommand(Plane.yPlane, 3, RotationDirection.right),
-   ]),
+   new Phase(FacePosition.front, [new RotationCommand(Plane.yPlane, 3, RotationDirection.right)]),
+   new Phase(FacePosition.right, [new RotationCommand(Plane.yPlane, 3, RotationDirection.right)]),
+   new Phase(FacePosition.back, [new RotationCommand(Plane.yPlane, 3, RotationDirection.right)]),
+   new Phase(FacePosition.top, [new RotationCommand(Plane.xPlane, 3, RotationDirection.left)]),
+   new Phase(FacePosition.left, [new RotationCommand(Plane.yPlane, 3, RotationDirection.right)]),
+   new Phase(FacePosition.bottom, [new RotationCommand(Plane.yPlane, 3, RotationDirection.right)]),
 ]);
 const cubeFaces = ref<CubeFace[]>([]);
 const playing = ref(false);
@@ -208,15 +196,14 @@ const previousRotations = computed<RotationCommand[]>(
                   {{ device.label }}
                </option>
             </select>
-            <p class="phase">{{ phases[phase].title }}</p>
+            <p class="phase">{{ $t(`scanner.phases.${FacePosition[phases[phase].key]}`) }}</p>
          </div>
       </div>
 
       <p class="check-msg msg">
-         <template v-if="isColorSelection"> Überprüfe ob die gescannten Farben stimmen </template>
+         <template v-if="isColorSelection"> {{ $t("scanner.messages.checkColors") }} </template>
          <template v-if="!isColorSelection && phase === 0">
-            Positioniere den Würfel im lila umrahmten Bereich und drücke dann auf Scannen. Du kannst
-            die Farben anschließend noch bearbeiten.
+            {{ $t("scanner.messages.placingExplanation") }}
          </template>
       </p>
 
@@ -236,6 +223,7 @@ const previousRotations = computed<RotationCommand[]>(
                   <option
                      v-for="tileColor in tileColors"
                      :key="tileColor"
+                     :value="tileColor"
                      :style="
                         mq.lgPlus
                            ? `background-color: ${getColorString(tileColor)}; color: #000`
@@ -247,12 +235,19 @@ const previousRotations = computed<RotationCommand[]>(
                </select>
             </div>
             <p class="rotate-msg msg" v-if="!isColorSelection && phase > 0">
-               Drehe den Würfel und drücke dann auf Scannen
+               {{ $t("scanner.messages.rotateInstruction") }}
             </p>
             <button v-if="isColorSelection" v-on:click="nextFace" class="focus-area-button">
-               🗸 {{ phase < phases.length - 1 ? "Farben stimmen und weiter" : "Würfel lösen" }}
+               🗸
+               {{
+                  phase < phases.length - 1
+                     ? $t("scanner.buttons.colorsMatch")
+                     : $t("scanner.buttons.solve")
+               }}
             </button>
-            <button v-else v-on:click="scan" class="scan-button focus-area-button">Scannen</button>
+            <button v-else v-on:click="scan" class="scan-button focus-area-button">
+               {{ $t("scanner.buttons.scan") }}
+            </button>
          </div>
       </div>
 
@@ -267,8 +262,8 @@ const previousRotations = computed<RotationCommand[]>(
       <img ref="screenshotImgEl" style="position: absolute; max-width: 90vw; top: 30px" />
 
       <div class="lower-controls controls">
-         <button v-on:click="$emit('finished')">Zurück</button>
-         <button v-on:click="restart" class="restart">Neu starten</button>
+         <button v-on:click="$emit('finished')">{{ $t("scanner.buttons.goBack") }}</button>
+         <button v-on:click="restart" class="restart">{{ $t("scanner.buttons.restart") }}</button>
       </div>
 
       <video width="100%" height="auto" ref="videoEl"></video>
