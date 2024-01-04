@@ -18,4 +18,27 @@ export const german: LanguageTree = {
       advanced: "Fortgeschritten",
       twoPhase: "Experte",
    },
+   scanner: {
+      phases: {
+         front: "Vorne",
+         back: "Hinten",
+         left: "Links",
+         right: "Rechts",
+         top: "Oben",
+         bottom: "Unten",
+      },
+      buttons: {
+         restart: "Neu starten",
+         solve: "Würfel speichern",
+         colorsMatch: "Farben stimmen und weiter",
+         scan: "Scannen",
+         goBack: "Zurück",
+      },
+      messages: {
+         checkColors: "Überprüfe ob die gescannten Farben stimmen",
+         placingExplanation:
+            "Positioniere den Würfel im lila umrahmten Bereich und drücke dann auf Scannen. Du kannst die Farben anschließend noch bearbeiten.",
+         rotateInstruction: "Drehe den Würfel wie in der Animation und drücke dann auf Scannen",
+      },
+   },
 };

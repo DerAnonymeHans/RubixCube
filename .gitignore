@@ -26,3 +26,7 @@ pnpm-debug.log*
 .vs
 bin
 obj
+
+**/.git-alt
+
+/rubix-cube/dist

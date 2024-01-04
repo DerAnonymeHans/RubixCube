@@ -9,7 +9,7 @@ import { createI18n } from "vue-i18n";
 import { langs } from "./i18/langs";
 
 const i18n = createI18n({
-   locale: "de",
+   locale: "en",
    fallbackLocale: "en",
    messages: langs,
 });
