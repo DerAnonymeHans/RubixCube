@@ -198,7 +198,7 @@ window.addEventListener("keydown", (e) => {
          <div v-if="showControls" class="bar upper-solving-bar" :class="mq.current">
             <div class="row">
                <div>
-                  <label for="algoSelect">Algorithmus: </label>
+                  <label for="algoSelect">{{ $t("solver.algorithm") }}: </label>
                   <select id="algoSelect" v-model="algo">
                      <option v-for="algo in ALGOS" :value="algo">{{ $t(`algo.${algo}`) }}</option>
                   </select>
@@ -220,8 +220,8 @@ window.addEventListener("keydown", (e) => {
       <canvas ref="canvasRef" :class="mq.current"></canvas>
       <Transition name="fade-later">
          <div v-if="showControls" class="bar lower-solving-bar" :class="mq.current">
-            <button v-on:click="() => solve()">Lösen</button>
-            <button v-on:click="$emit('scan-cube')">Deinen Würfel scannen</button>
+            <button v-on:click="() => solve()">{{ $t("solver.buttons.solve") }}</button>
+            <button v-on:click="$emit('scan-cube')">{{ $t("solver.buttons.scan") }}</button>
          </div>
       </Transition>
    </div>

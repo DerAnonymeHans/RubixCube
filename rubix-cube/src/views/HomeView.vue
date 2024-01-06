@@ -10,6 +10,7 @@ import Scanner from "@/components/Scanner.vue";
 import { CubeFace } from "@/scripts/cube/cubeFace";
 import { FacePosition, SavebleCube } from "@/scripts/cube/types";
 import { STATE } from "@/scripts/state";
+import Navigation from "@/components/Navigation.vue";
 
 const mq = useMq();
 const rubixCube = ref<RubixCube>(new RubixCube());
@@ -41,6 +42,9 @@ function loadCube() {
 </script>
 
 <template>
+   <Transition name="slide-up">
+      <Navigation v-if="view === 'landing'" />
+   </Transition>
    <Transition name="slide-left">
       <div v-if="view === 'scan'" class="scanner" :class="mq.current">
          <Scanner @finished="() => (view = 'solve')" @saved-cube="loadCube" />
@@ -50,17 +54,16 @@ function loadCube() {
             <Transition name="slide-left">
                <div v-if="view === 'landing'" class="text">
                   <template v-if="mq.xs">
-                     <h1 style="line-height: 1em">Zauber</h1>
-                     <h1 style="text-align: right; margin-right: 20%">Würfel</h1>
+                     <h1 style="line-height: 1em">{{ $t("landing.header1") }}</h1>
+                     <h1 style="text-align: right; margin-right: 20%">{{ $t("landing.header2") }}</h1>
                   </template>
-                  <h1 v-else>Zauberwürfel</h1>
+                  <h1 v-else>{{ $t("landing.headingFull") }}</h1>
 
                   <h2>
-                     Mit Hilfe dieser Webseite kannst du deinen Zauberwürfel einscannen und auf
-                     verschiedene Arten lösen lassen.
+                     {{ $t("landing.p1") }}
                   </h2>
 
-                  <button v-on:click="() => (view = 'solve')">Würfel lösen lassen</button>
+                  <button v-on:click="() => (view = 'solve')">{{ $t("landing.action") }}</button>
                </div>
             </Transition>
             <div class="cube">
@@ -75,21 +78,19 @@ function loadCube() {
          </section>
          <Transition name="slide-left-later">
             <section v-if="view === 'solve'" class="description" :class="mq.current">
-               <button class="back-to-landing" v-on:click="() => (view = 'landing')">Zurück</button>
+               <button class="back-to-landing" v-on:click="() => (view = 'landing')">{{ $t("solver.buttons.goBack") }}</button>
                <div>
-                  <h1>Was muss ich tun?</h1>
-                  <p>
-                     Hier eine kurze Schritt für Schritt Anleitung, das meiste erklärt sich von selbst:
+                  <h1>{{ $t("solver.explanation.heading") }}</h1>
+                  <p>{{ $t("solver.explanation.p1") }}
                      <ol>
-                        <li>Drücke auf den Knopf "Deinen Würfel scannen"</li>
-                        <li>Lass die Webseite auf deine Kamera zugreifen</li>
-                        <li>Folge den Anweisungen während des Scannens</li>
-                        <li>Wähle einen Algorithmus zum lösen des Würfels aus</li>
-                        <li>Drücke auf Lösen</li>
-                        <li>Mit den Knöpfen « und » oder den Pfeiltasten kannst du dir nun Schritt für Schritt die Lösung anzeigen lassen</li>
+                        <li>{{ $t("solver.explanation.steps.s1") }}</li>
+                        <li>{{ $t("solver.explanation.steps.s2") }}</li>
+                        <li>{{ $t("solver.explanation.steps.s3") }}</li>
+                        <li>{{ $t("solver.explanation.steps.s4") }}</li>
+                        <li>{{ $t("solver.explanation.steps.s5") }}</li>
+                        <li>{{ $t("solver.explanation.steps.s6") }}</li>
                      </ol>
                   </p>
-                  <p></p>
                </div>
             </section>
          </Transition>

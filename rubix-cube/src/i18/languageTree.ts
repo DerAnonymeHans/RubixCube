@@ -39,4 +39,37 @@ export interface LanguageTree {
          rotateInstruction: string;
       };
    };
+   solver: {
+      buttons: {
+         solve: string;
+         scan: string;
+         goBack: string;
+      };
+      algorithm: string;
+
+      explanation: {
+         heading: string;
+         p1: string;
+         steps: {
+            s1: string;
+            s2: string;
+            s3: string;
+            s4: string;
+            s5: string;
+            s6: string;
+         };
+      };
+   };
+   landing: {
+      header1: string;
+      header2: string;
+      headingFull: string;
+      p1: string;
+      action: string;
+   };
+   nav: {
+      solve: string;
+      play: string;
+      learn: string;
+   };
 }

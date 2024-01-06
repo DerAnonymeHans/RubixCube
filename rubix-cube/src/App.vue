@@ -1,14 +1,30 @@
 <!-- @format -->
 
+<script lang="ts" setup>
+import { ref } from "vue";
+</script>
 <template>
-   <!-- <nav>
-         <router-link to="/">Home</router-link> |
-         <router-link to="/solver">Solver</router-link>
-      </nav> -->
    <main>
       <router-view />
    </main>
 </template>
+<style lang="scss" scoped>
+$dark-bg: #1c4557;
+nav {
+   display: flex;
+   background-color: rgba($dark-bg, 0.7);
+   // background: linear-gradient(
+   //    180deg,
+   //    rgba($dark-bg, 0.8) 0%,
+   //    // rgba($dark-bg, 0.5) 50%,
+   //    rgba($dark-bg, 0) 100%
+   // );
+
+   position: fixed;
+   top: 0;
+   width: 100%;
+}
+</style>
 <style lang="scss">
 #app {
    font-family: "Rubik", sans-serif !important;
@@ -85,6 +101,17 @@ nav {
 .slide-left-later-enter-from,
 .slide-left-later-leave-to {
    transform: translateX(-50vw);
+   opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+   transition: all 1s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+   transform: translateY(-100%);
    opacity: 0;
 }
 </style>
