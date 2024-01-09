@@ -72,4 +72,11 @@ export interface LanguageTree {
       play: string;
       learn: string;
    };
+   playground: {
+      mode: {
+         move: string;
+         rotate: string;
+         mode: string;
+      };
+   };
 }

@@ -2,9 +2,8 @@
 
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-
 import { RubixCube } from "../cube/cube";
-import { VisualRubixCube } from "./visualCube";
+import { VisualRubixCube, VisualRubixCubeTile } from "./visualCube";
 import { CameraOptions, RubixCubeCamera } from "./camera";
 import { MAX_SPEED, SCALE, SPEED } from "../settings";
 import { facePositionToIdentifier, invertRotation } from "../cube/helper";
@@ -88,6 +87,10 @@ export class VisualManager {
       this.handleResize();
 
       this.isRendering = true;
+   }
+
+   public setCameraMovement(enable: boolean) {
+      this.controls.enableRotate = enable;
    }
 
    public render() {
@@ -262,5 +265,20 @@ export class VisualManager {
 
          this.speed = 7;
       }
+   }
+
+   public raycastFromClick(event: MouseEvent) {
+      const clickPos = new THREE.Vector2();
+      clickPos.x = (event.offsetX / this.renderer.domElement.clientWidth) * 2 - 1;
+      clickPos.y = -(event.offsetY / this.renderer.domElement.clientHeight) * 2 + 1;
+
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(clickPos, this.camera);
+      const intersects = raycaster.intersectObjects(this.visualCube.meshes, true);
+      return intersects;
+   }
+
+   public getMeshIdx(mesh: VisualRubixCubeTile) {
+      return this.visualCube.meshes.indexOf(mesh);
    }
 }

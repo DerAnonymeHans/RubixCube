@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "three.interaction": "^0.2.3",
     "vue-i18n": "^9.8.0"
   },
   "devDependencies": {

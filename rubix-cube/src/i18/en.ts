@@ -73,4 +73,12 @@ export const english: LanguageTree = {
       play: "Play",
       learn: "Learn",
    },
+
+   playground: {
+      mode: {
+         rotate: "Rotate",
+         move: "Move",
+         mode: "Mode",
+      },
+   },
 };

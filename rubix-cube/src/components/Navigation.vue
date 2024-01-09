@@ -11,7 +11,7 @@ const langs: { key: string; label: string }[] = [
    <nav>
       <div>
          <router-link to="/">{{ $t("nav.solve") }}</router-link>
-         <router-link to="/">{{ $t("nav.play") }}</router-link>
+         <router-link to="/Spielen">{{ $t("nav.play") }}</router-link>
          <router-link to="/">{{ $t("nav.learn") }}</router-link>
 
          <select v-model="$i18n.locale">
@@ -26,13 +26,16 @@ const langs: { key: string; label: string }[] = [
 <style lang="scss" scoped>
 $dark-bg: #1c4557;
 nav {
-   background-color: rgba($dark-bg, 0.7);
+   background-color: rgba($dark-bg, 0.8);
    z-index: 9999;
    position: fixed;
    top: 0;
-   width: 100%;
+   width: max(100%, fit-content);
    padding: 3vh;
    box-sizing: border-box;
+   border-radius: 0 0 1em 1em;
+   left: 50%;
+   transform: translateX(-50%);
 
    div {
       display: flex;
@@ -47,7 +50,8 @@ nav {
          text-decoration: none;
 
          &.router-link-exact-active {
-            color: #8db0be;
+            text-decoration: underline #8db0be 3px;
+            // color: #8db0be;
          }
       }
    }

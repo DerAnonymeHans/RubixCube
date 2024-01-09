@@ -68,6 +68,8 @@ export class VisualRubixCube {
             let rotation = new THREE.Quaternion();
             children.getWorldQuaternion(rotation);
             children.rotation.setFromQuaternion(rotation);
+
+            children.updateMatrix();
          }
 
          scene.add(...rotationGroup.children);
@@ -185,21 +187,8 @@ export class VisualRubixCubeTile extends THREE.Mesh {
       const material = new THREE.MeshPhongMaterial({
          vertexColors: true,
          shininess: 50,
-         // specular: 0x050505,
       });
-
       super(geometry, material);
-
-      let wireframeGeometry = new THREE.EdgesGeometry(geometry);
-      let wireframeMaterial = new THREE.LineBasicMaterial({
-         color: 0x000000,
-         side: THREE.FrontSide,
-         linewidth: 100,
-      });
-
-      let wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
-
-      // this.add(wireframe);
    }
 
    private static colorMarkers = [
@@ -218,8 +207,6 @@ export class VisualRubixCubeTile extends THREE.Mesh {
       // array has a length of 2700 (if 2 is set for the number of segments for the RoundedBoxGeometry): 3 (RGB) * 150 (Vertices per side) * 6 (sides)
       let colorAttribute = this.geometry.getAttribute("color");
       const VERTICES_PER_FACE = 150;
-      // let attr = this.geometry.getAttribute("position");
-      // debugger;
 
       if (colorAttribute === undefined) {
          this.geometry.setAttribute(
