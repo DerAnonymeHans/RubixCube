@@ -43,6 +43,8 @@ onMounted(async () => {
    visualManager.startRendering(canvasRef.value);
    canvasRef.value.addEventListener("mousedown", onMoveStart);
    canvasRef.value.addEventListener("mouseup", onMoveEnd);
+   canvasRef.value.addEventListener("touchstart", (e) => onMoveStart(e as any));
+   canvasRef.value.addEventListener("mouseup", (e) => onMoveEnd(e as any));
    render();
 });
 function render() {
