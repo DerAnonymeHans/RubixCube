@@ -11,6 +11,7 @@ import { VisualizationOptions } from "./visualizationOptions";
 import { Plane, PlaneIdentifier, RotationCommand } from "../cube/commands";
 import { sleep } from "../helper";
 import { FacePosition } from "../cube/types";
+import { ScreenPositionEvent } from "../playground/types";
 
 export class VisualManager {
    private rubixCube: RubixCube;
@@ -43,11 +44,7 @@ export class VisualManager {
       return Math.min(Math.max(15, 2 * this.speed), MAX_SPEED);
    }
 
-   constructor(
-      cube: RubixCube,
-      options: VisualizationOptions,
-      onStepChanged: (() => void) | null = null
-   ) {
+   constructor(cube: RubixCube, options: VisualizationOptions, onStepChanged: (() => void) | null = null) {
       this.rubixCube = cube;
       this.visualCube = new VisualRubixCube(this.rubixCube);
       this.renderer = null!;
@@ -178,11 +175,7 @@ export class VisualManager {
       if (this.visualCube.isRotating) return false;
 
       const rotation = this.rubixCube.allRotations[this.stepIdx - 1];
-      const succesfull = this.visualCube.rotate(
-         invertRotation(rotation),
-         this.scene,
-         speed ?? this.speed
-      );
+      const succesfull = this.visualCube.rotate(invertRotation(rotation), this.scene, speed ?? this.speed);
       if (succesfull) {
          this._stepIdx--;
       }
@@ -267,7 +260,7 @@ export class VisualManager {
       }
    }
 
-   public raycastFromClick(event: MouseEvent) {
+   public raycastFromClick(event: ScreenPositionEvent) {
       const clickPos = new THREE.Vector2();
       clickPos.x = (event.offsetX / this.renderer.domElement.clientWidth) * 2 - 1;
       clickPos.y = -(event.offsetY / this.renderer.domElement.clientHeight) * 2 + 1;

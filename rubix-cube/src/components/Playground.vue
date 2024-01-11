@@ -18,6 +18,7 @@ import { FacePosition } from "@/scripts/cube/types";
 import { VisualRubixCubeTile } from "@/scripts/visuals/visualCube";
 import { LocalRelation } from "@/scripts/solver/types";
 import { registerRuntimeCompiler } from "vue";
+import { ScreenPositionEvent } from "@/scripts/playground/types";
 
 interface Props {
    rambazamba?: null;
@@ -41,10 +42,14 @@ const moveStartingPoint = ref<{
 onMounted(async () => {
    visualManager = createVisualManager();
    visualManager.startRendering(canvasRef.value);
-   canvasRef.value.addEventListener("mousedown", onMoveStart);
-   canvasRef.value.addEventListener("mouseup", onMoveEnd);
-   canvasRef.value.addEventListener("touchstart", (e) => onMoveStart(e as any));
-   canvasRef.value.addEventListener("mouseup", (e) => onMoveEnd(e as any));
+
+   if(window.matchMedia("(pointer: coarse)").matches) {
+      canvasRef.value.addEventListener("touchstart", e => onMoveStart(toRelativeCoords(e)))
+      canvasRef.value.addEventListener("touchend", e => onMoveEnd(toRelativeCoords(e)))
+   } else {
+      canvasRef.value.addEventListener("mousedown", onMoveStart);
+      canvasRef.value.addEventListener("mouseup", onMoveEnd);
+   }
    render();
 });
 function render() {
@@ -55,7 +60,6 @@ function render() {
 watch(
    () => mode.value,
    (newMode) => {
-      // debugger;
       visualManager.setCameraMovement(newMode === "rotate");
    }
 );
@@ -72,11 +76,19 @@ function createVisualManager() {
    } as VisualizationOptions);
 }
 
+function toRelativeCoords(e: TouchEvent): ScreenPositionEvent {
+   const bBox = canvasRef.value.getBoundingClientRect();
+   return {
+      offsetX: e.changedTouches[0].clientX - bBox.x,
+      offsetY: e.changedTouches[0].clientY - bBox.y
+   }
+}
+
 function toggleMode() {
    mode.value = mode.value === "move" ? "rotate" : "move";
 }
 
-function onMoveStart(e: MouseEvent) {
+function onMoveStart(e: ScreenPositionEvent) {
    if (mode.value !== "move") return;
 
    const intersects = visualManager.raycastFromClick(e);
@@ -93,7 +105,7 @@ function onMoveStart(e: MouseEvent) {
    };
 }
 
-function onMoveEnd(e: MouseEvent) {
+function onMoveEnd(e: ScreenPositionEvent) {
    if (mode.value !== "move") return;
    if (moveStartingPoint.value === null) return;
    const intersects = visualManager.raycastFromClick(e);
